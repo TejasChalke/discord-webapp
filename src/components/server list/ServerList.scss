@@ -1,0 +1,29 @@
+#serverListContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: .5rem;
+    background-color: var(--dark);
+
+    #serverListButtons {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        .serverListButton {
+            aspect-ratio: 1/1;
+            margin-bottom: .5rem;
+            padding: .5rem;
+            color: var(--light-gray);
+            border: 1px dotted var(--light-gray);
+            border-radius: 50%;
+            text-align: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    }
+}
