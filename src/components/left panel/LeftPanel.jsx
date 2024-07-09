@@ -54,7 +54,12 @@ export default function LeftPanel() {
             <div id="leftPanelFooter">
                 <div className="leftPanelFooterContainer">
                     <div className="leftPanelFooterText">
-                        <div className='big'>Voice Connected</div>
+                        <div className='big'>
+                            <i class="fa-solid fa-signal"></i>
+                            <span>
+                                Voice Connected
+                            </span>
+                        </div>
                         <div className='small'>Channel Name</div>
                     </div>
 

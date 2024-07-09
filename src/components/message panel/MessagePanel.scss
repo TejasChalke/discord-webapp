@@ -1,0 +1,64 @@
+#messagePanelContainer {
+    display: grid;
+    grid-template-rows: 1fr 13%;
+
+    #messagePanelDisplay {
+        padding: 1rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .displayMessage {
+            margin-bottom: 1rem;
+
+            .displayMessageHeader {
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-end;
+
+                .displayName {
+                    color: green;
+                    margin-right: .5rem;
+                }
+
+                .dateTime {
+                    font-size: .8rem;
+                    color: var(--lighter-gray);
+                }
+            }
+        }
+    }
+
+    #messagePanelInput {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: .5rem;
+        margin: 1rem;
+        border-radius: 4px;
+        background-color: var(--light-gray);
+
+        i {
+            font-size: 2rem;
+            color: var(--lighter-gray);
+            cursor: pointer;
+        }
+
+        input {
+            border: none;
+            flex: 1;
+            background-color: var(--lighter-gray);
+            padding: .5rem .75rem;
+            margin-left: .5rem;
+            border-radius: 4px;
+            color: var(--white);
+            
+            &::placeholder {
+                color: var(--white);
+                opacity: 1;
+            }
+        }
+    }
+}

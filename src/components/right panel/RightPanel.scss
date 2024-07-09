@@ -1,0 +1,23 @@
+#rightPanelContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: .5rem 1rem;
+    background-color: var(--lighter-dark);
+    overflow-y: auto;
+
+    #rightPanelHeader {
+        font-weight: 500;
+    }
+
+    .rightPanelItem {
+        margin-top: .5rem;
+        text-transform: capitalize;
+        cursor: pointer;
+
+        i {
+            margin-right: .5rem;
+        }
+    }
+}

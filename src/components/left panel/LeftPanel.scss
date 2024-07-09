@@ -8,7 +8,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: .5rem;
+        padding: .5rem 1rem;
         font-size: 1.5rem;
         border-bottom: 1px solid var(--dark);
     }
@@ -24,7 +24,7 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
-            padding: .5rem;
+            padding: .5rem 1rem;
             
             .leftPanelListHeader {
                 width: 100%;
@@ -69,6 +69,10 @@
             .leftPanelFooterText {
                 .big {
                     font-weight: 500;
+
+                    i {
+                        margin-right: .5rem;
+                    }
                 }
 
                 .small {

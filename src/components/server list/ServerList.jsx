@@ -1,7 +1,7 @@
 import './ServerList.scss'
 
 export default function ServerList() {
-    const servers = []
+    const servers = ["first", "second"]
     return(
         <div id="serverListContainer">
             <div id="serverList">
@@ -9,7 +9,7 @@ export default function ServerList() {
                     servers.map((server, index) => {
                         return(
                             <div className="serverListItem">
-                                {server.name}
+                                {server[0]}
                             </div>
                         )
                     })
