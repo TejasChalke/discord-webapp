@@ -13,8 +13,9 @@
 :root {
   --dark: #202224;
   --light-dark: #2a2c31;
-  --ligter-dark: #2e3237;
+  --lighter-dark: #2e3237;
   --gray: #35383e;
   --light-gray: #484c52;
   --lighter-gray: #7e8185;
+  --white: #cececf;
 }

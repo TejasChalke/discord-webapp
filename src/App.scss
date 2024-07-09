@@ -1,5 +1,6 @@
 .App {
     height: 100vh;
     display: grid;
-    grid-template-columns: 5% 25% 1fr;
+    grid-template-columns: 5% 18% 1fr;
+    overflow: hidden;
 }
