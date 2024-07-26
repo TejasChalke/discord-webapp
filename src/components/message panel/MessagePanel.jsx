@@ -2,8 +2,23 @@ import { useState } from 'react'
 import './MessagePanel.scss'
 
 export default function MessagePanel() {
-    const displayMessages = ["hello", "hii"]
+    const [displayMessages, setDisplayMessages] = useState(["hello", "hii"]);
     const [message, setMessage] = useState("");
+    
+
+    const sendMessage = () => {
+        if(message.trim() === "") return;
+        
+        setDisplayMessages([...displayMessages, message]);
+        setMessage("");
+        // Send message to backend
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
 
     return (
         <div id="messagePanelContainer">
@@ -29,8 +44,10 @@ export default function MessagePanel() {
                     name="enter message" 
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder='Message channel'    
                 />
+                <i id="sendButton" className="fa-solid fa-paper-plane" onClick={sendMessage}></i>
             </div>
         </div>
     )

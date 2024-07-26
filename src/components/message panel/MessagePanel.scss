@@ -46,6 +46,16 @@
             cursor: pointer;
         }
 
+        #sendButton {
+            // border: 1px solid white;
+            font-size: 2rem;
+            padding-left: .5rem;
+
+            &:hover {
+                color: var(--white);
+            }
+        }
+
         input {
             border: none;
             flex: 1;
