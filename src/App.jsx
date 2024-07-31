@@ -1,11 +1,10 @@
 import './App.scss';
+import { useState } from 'react';
+import UserContext from './contexts/UserContext';
 import ServerList from './components/server list/ServerList';
 import LeftPanel from './components/left panel/LeftPanel';
 import MainPanel from './components/main panel/MainPanel';
-import { createContext, useState } from 'react';
 import Login from './components/login/Login';
-
-const UserContext = createContext();
 
 function App() {
   const [user, setUser] = useState({});
