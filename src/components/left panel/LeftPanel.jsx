@@ -1,8 +1,13 @@
+import { useContext } from 'react'
 import './LeftPanel.scss'
+import UserContext from '../../contexts/UserContext'
 
 export default function LeftPanel() {
+    const { user } = useContext(UserContext);
     const textChannels = ["General", "Updates"]
     const voiceChannels = ["Gaming", "Chill"]
+    var tag = "" + user.tag;
+    while(tag.length < 4) tag = "0" + tag;
 
     return(
         <div id="leftPanelContainer">
@@ -55,7 +60,7 @@ export default function LeftPanel() {
                 <div className="leftPanelFooterContainer">
                     <div className="leftPanelFooterText">
                         <div className='big'>
-                            <i class="fa-solid fa-signal"></i>
+                            <i className="fa-solid fa-signal"></i>
                             <span>
                                 Voice Connected
                             </span>
@@ -71,18 +76,18 @@ export default function LeftPanel() {
                 <div className="leftPanelFooterContainer">
                     <div className="leftPanelFooterUserInfo">
                         <div id="leftPanelFooterUserInfoImage">
-
+                            {user.uname[0]}
                         </div>
 
                         <div className="leftPanelFooterText">
-                            <div className='big'>UserName</div>
-                            <div className='small'>#1234</div>
+                            <div className='big'>{user.uname}</div>
+                            <div className='small'>#{tag}</div>
                         </div>
                     </div>
 
                     <div className="leftPanelFooterOptions">
-                        <i class="fa-solid fa-microphone"></i>
-                        {/* <i class="fa-solid fa-microphone-slash"></i> */}
+                        <i className="fa-solid fa-microphone"></i>
+                        {/* <i className="fa-solid fa-microphone-slash"></i> */}
                         <i className="fa-solid fa-volume-high"></i>
                         {/* <i className="fa-solid fa-volume-xmark"></i> */}
                         <i className="fa-solid fa-gear"></i>

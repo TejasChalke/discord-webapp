@@ -1,20 +1,25 @@
 import './App.scss';
 import { useState } from 'react';
+
 import UserContext from './contexts/UserContext';
-import ServerList from './components/server list/ServerList';
+import ChannelsContext from './contexts/ChannelsContext';
+
+import ChannelList from './components/server list/ChannelList';
 import LeftPanel from './components/left panel/LeftPanel';
 import MainPanel from './components/main panel/MainPanel';
 import Login from './components/login/Login';
 
 function App() {
   const [user, setUser] = useState({});
+  const [channels, setChannels] = useState({});
 
   return (
     <div className="App">
       <UserContext.Provider value={{user, setUser}}>
+      <ChannelsContext.Provider value={{channels, setChannels}}>
         { user.id && 
           <>
-            <ServerList />
+            <ChannelList />
             <LeftPanel />
             <MainPanel />
           </>
@@ -23,6 +28,7 @@ function App() {
           !user.id &&
           <Login />
         }
+      </ChannelsContext.Provider>
       </UserContext.Provider>
     </div>
   );

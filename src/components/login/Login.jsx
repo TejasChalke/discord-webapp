@@ -2,6 +2,7 @@ import './Login.scss';
 import backgroundImage from '../../images/login_background.png'
 import { useContext, useState } from 'react';
 import UserContext from '../../contexts/UserContext';
+import ChannelsContext from '../../contexts/ChannelsContext';
 
 export default function Login() {
     const [display, setDisplay] = useState("login");
@@ -21,6 +22,7 @@ function LoginForm(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { setUser } = useContext(UserContext);
+    const { setChannels } = useContext(ChannelsContext);
 
     async function login() {
         if(email.trim().length === 0) {
@@ -33,6 +35,7 @@ function LoginForm(props) {
         }
 
         const body = { email: email.trim(), password: password.trim()};
+        var user = null;
         try {
             const response = await fetch("http://localhost:8080/api/user/login", {
                 method: "POST",
@@ -41,15 +44,47 @@ function LoginForm(props) {
                 },
                 body: JSON.stringify(body)
             });
-
+            
             if(response.status === 200) {
-                const result = await response.json();
-                setUser(result);
+                user = await response.json();
             } else {
                 console.log("Error logging in");
             }
+
+            if(user !== null) {
+                const channels = await getUserChannels(user.id);
+                console.log(channels);
+                setChannels(channels);
+                setUser(user);
+            }
         } catch (error) {
-            console.log("Error making api request: ", error);
+            console.log("Error making api request to login: ", error);
+        }
+    }
+
+    async function getUserChannels(id) {
+        try {
+            const response = await fetch(`http://localhost:8080/api/channel/user/${id}`);
+
+            if(response.status === 200) {
+                const result = await response.json();
+                console.log(result);
+
+                const channels = result.values.map(channel => {
+                    const obj = {};
+                    result.keys.forEach((key, index) => {
+                        obj[key] = channel[index];
+                    });
+                    return obj;
+                });
+
+                return channels;
+            } else {
+                console.log("Error getting user channels");
+                return [];
+            }
+        } catch(error) {
+            console.log("Error making api request to get channels: ", error);
         }
     }
 
