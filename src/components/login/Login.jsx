@@ -53,7 +53,6 @@ function LoginForm(props) {
 
             if(user !== null) {
                 const channels = await getUserChannels(user.id);
-                console.log(channels);
                 setChannels(channels);
                 setUser(user);
             }
@@ -68,8 +67,6 @@ function LoginForm(props) {
 
             if(response.status === 200) {
                 const result = await response.json();
-                console.log(result);
-
                 const channels = result.values.map(channel => {
                     const obj = {};
                     result.keys.forEach((key, index) => {

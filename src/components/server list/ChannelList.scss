@@ -48,4 +48,76 @@
             cursor: pointer;
         }
     }
+
+    #addChannelForm {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: none;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        background-color: var(--dark);
+        color: var(--white);
+        padding: 1rem;
+        border-radius: 4px;
+
+        &.active {
+            display: flex;
+        }
+
+        #channelFormHeader {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: .5rem;
+
+            .big {
+                font-size: 1.8rem;
+                margin-bottom: .5rem;
+            }
+
+            .small {
+                font-size: .8rem;
+            }
+        }
+
+        .addChannelInput {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin: .5rem 0rem;
+
+            input {
+                width: 100%;
+                font-size: 1.2rem;
+                padding: .25rem .5rem;
+                background-color: var(--light-dark);
+                color: var(--white);
+                border: none;
+                margin-top: .5rem;
+            }
+
+            &.buttons {
+                flex-direction: row;
+                justify-content: space-between;
+
+                .button {
+                    cursor: pointer;
+                    padding: .25rem 0rem;
+                    border-radius: 4px;
+
+                    &.background {
+                        background-color: var(--dark-blue);
+                        padding: .5rem 1rem;
+                    }
+                }
+            }
+        }
+    }
 }
