@@ -6,18 +6,28 @@ import UserContext from '../../contexts/UserContext'
 export default function ChannelList() {
     const { channels, setChannels } = useContext(ChannelsContext);
     const { user } = useContext(UserContext);
-    const [showForm, setShowForm] = useState(false);
+    
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showSearchForm, setShowSearchForm] = useState(false);
+    const [searchedChannels, setSearchedChannels] = useState([]);
+
     const [channelName, setChannelName] = useState("");
     const [description, setDescription] = useState("");
 
-    function closeForm() {
+    function closeForm(type) {
         setChannelName("");
-        setDescription("");
-        setShowForm(false);
+        if(type === "add") {
+            setDescription("");
+            setShowAddForm(false);
+        } else {
+            setSearchedChannels([]);
+            setShowSearchForm(false);
+        }
     }
 
-    function openForm() {
-        setShowForm(true);
+    function openForm(type) {
+        if(type === "add") setShowAddForm(true);
+        else setShowSearchForm(true);
     }
 
     async function addNewChannel() {
@@ -78,6 +88,41 @@ export default function ChannelList() {
         }
     }
 
+    async function searchChannels() {
+        const retreivedChannels = await getSearchChannels();
+        const newChannels = retreivedChannels.filter(channel => !channels.find(existingChannel => existingChannel.id === channel.id));
+        setSearchedChannels(newChannels);
+    }
+
+    async function getSearchChannels() {
+        if(channelName.trim().length < 4) {
+            console.log("Enter atlest 4 characters to search channels");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/channel/search?name=${channelName.trim()}&id=${user.id}`);
+
+            if(response.status === 200) {
+                const result = await response.json();
+                const channels = result.values.map(channel => {
+                    const obj = {};
+                    result.keys.forEach((key, index) => {
+                        obj[key] = channel[index];
+                    });
+                    return obj;
+                });
+
+                return channels;
+            } else {
+                console.log("Error getting user channels");
+                return [];
+            }
+        } catch (error) {
+            console.log("Error making api request to get searched channels: ", error);
+        }
+    }
+
     return(
         <div id="channelListContainer">
             <div id="channelList">
@@ -95,34 +140,85 @@ export default function ChannelList() {
                 <div className="channelListButton">
                     <i
                         className="fa-solid fa-plus"
-                        onClick={() => openForm()} 
-                        onKeyDown={(e) => {e.key === "Enter" && openForm()}}
+                        onClick={() => openForm("add")} 
+                        onKeyDown={(e) => {e.key === "Enter" && openForm("add")}}
                     ></i>
                 </div>
                 <div className="channelListButton">
-                    <i className="fa-solid fa-magnifying-glass"></i>
+                    <i
+                        className="fa-solid fa-magnifying-glass"
+                        onClick={() => openForm("search")} 
+                        onKeyDown={(e) => {e.key === "Enter" && openForm("search")}}
+                    ></i>
                 </div>
             </div>
 
-            <div id="addChannelForm" className={showForm ? "active" : ""}>
-                <div id="channelFormHeader">
-                    <div className="big">Customize your channel</div>
-                    <div className="small">Give your channel a personality with a name and a description.</div>
+            <div id="popUpForm" className={showSearchForm ? "active" : ""}>
+                <div id="popUpFormHeader">
+                    <div className="big">Search Channels</div>
                 </div>
-                <div className="addChannelInput">
+                <div className="popUpInput">
                     <label htmlFor="channel-name">CHANNEL NAME</label>
                     <input type="text" name='channel-name' value={channelName} onChange={(e) => setChannelName(e.target.value)}/>
                 </div>
-                <div className="addChannelInput">
-                    <label htmlFor="channel-desc">CHANNEL DESCRIPTION</label>
-                    <input type="text" name='channel-desc' value={description} onChange={(e) => setDescription(e.target.value)}/>
-                </div>
-                <div className="addChannelInput buttons">
+
+                { 
+                    searchedChannels.length > 0 && 
+                    <div className="popUpList">
+                        {searchedChannels.map((channel, index) => {
+                            return (
+                                <div className="popUpListItem" key={index}>
+                                    <div className="popUpListItemImage">
+                                        {channel.name[0]}
+                                    </div>
+                                    <div className="popUpListItemText">
+                                        {channel.name}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                }
+
+                <div className="popUpInput buttons">
                     <div
                         className="button"
                         tabIndex={0}
-                        onClick={closeForm}
-                        onKeyDown={(e) => {e.key === "Enter" && closeForm()}}
+                        onClick={() => closeForm("search")}
+                        onKeyDown={(e) => {e.key === "Enter" && closeForm("search")}}
+                    >
+                        Back
+                    </div>
+                    <div
+                        className="button background"
+                        tabIndex={0}
+                        onClick={searchChannels}
+                        onKeyDown={(e) => {e.key === "Enter" && searchChannels()}}
+                    >
+                        Search
+                    </div>
+                </div>
+            </div>
+
+            <div id="popUpForm" className={showAddForm ? "active" : ""}>
+                <div id="popUpFormHeader">
+                    <div className="big">Customize your channel</div>
+                    <div className="small">Give your channel a personality with a name and a description.</div>
+                </div>
+                <div className="popUpInput">
+                    <label htmlFor="channel-name">CHANNEL NAME</label>
+                    <input type="text" name='channel-name' value={channelName} onChange={(e) => setChannelName(e.target.value)}/>
+                </div>
+                <div className="popUpInput">
+                    <label htmlFor="channel-desc">CHANNEL DESCRIPTION</label>
+                    <input type="text" name='channel-desc' value={description} onChange={(e) => setDescription(e.target.value)}/>
+                </div>
+                <div className="popUpInput buttons">
+                    <div
+                        className="button"
+                        tabIndex={0}
+                        onClick={() => closeForm("add")}
+                        onKeyDown={(e) => {e.key === "Enter" && closeForm("add")}}
                     >
                         Back
                     </div>

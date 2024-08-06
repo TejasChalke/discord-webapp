@@ -49,7 +49,7 @@
         }
     }
 
-    #addChannelForm {
+    #popUpForm {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -68,7 +68,7 @@
             display: flex;
         }
 
-        #channelFormHeader {
+        #popUpFormHeader {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -85,7 +85,7 @@
             }
         }
 
-        .addChannelInput {
+        .popUpInput {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -116,6 +116,46 @@
                         background-color: var(--dark-blue);
                         padding: .5rem 1rem;
                     }
+                }
+            }
+        }
+
+        .popUpList {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow-y: auto;
+            max-height: 200px;
+
+            .popUpListItem {
+                width: 100%;
+                height: 3rem;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                cursor: pointer;
+                margin-bottom: .5rem;
+
+                .popUpListItemImage {
+                    height: 80%;
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    background-color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-transform: capitalize;
+                    margin-right: .5rem;
+                }
+
+                .popUpListItemText {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    text-transform: capitalize;
+                    font-size: 1.2rem;
                 }
             }
         }
