@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import UserContext from './contexts/UserContext';
 import ChannelsContext from './contexts/ChannelsContext';
+import SelectedChannelContext from './contexts/SelectedChannelContext';
 
 import ChannelList from './components/server list/ChannelList';
 import LeftPanel from './components/left panel/LeftPanel';
@@ -12,9 +13,18 @@ import Login from './components/login/Login';
 function App() {
   const [user, setUser] = useState({});
   const [channels, setChannels] = useState({});
+  const [selectedChannel, setSelectedChannel] = useState({
+      selectedChannel: {
+          id: -1,
+          rooms: [],
+          members: []
+      },
+      setSelectedChannel: () => {}
+  });
 
   return (
     <div className="App">
+      <SelectedChannelContext.Provider value={{selectedChannel, setSelectedChannel}}>
       <UserContext.Provider value={{user, setUser}}>
       <ChannelsContext.Provider value={{channels, setChannels}}>
         { user.id && 
@@ -30,6 +40,7 @@ function App() {
         }
       </ChannelsContext.Provider>
       </UserContext.Provider>
+      </SelectedChannelContext.Provider>
     </div>
   );
 }

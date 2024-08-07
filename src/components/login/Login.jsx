@@ -53,6 +53,8 @@ function LoginForm(props) {
 
             if(user !== null) {
                 const channels = await getUserChannels(user.id);
+                // select the first channel and get its data
+
                 setChannels(channels);
                 setUser(user);
             }

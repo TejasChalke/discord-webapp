@@ -55,7 +55,7 @@ export default function ChannelList() {
                 console.log("New channel created successfully");
                 const allChannels = await getUserChannels(user.id);
                 setChannels(allChannels);
-                closeForm();
+                closeForm("add");
             } else {
                 console.log("Could not create a new channel");
             }
@@ -123,6 +123,35 @@ export default function ChannelList() {
         }
     }
 
+    async function addMembership(index) {
+        const body = {
+            "channelId": searchedChannels[index].id,
+            "userId": user.id,
+            "role": "member"
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/api/member/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if(response.status === 200) {
+                console.log("Membership added successfully");
+                const allChannels = await getUserChannels(user.id);
+                setChannels(allChannels);
+                closeForm("search");
+            } else {
+                console.log("Error adding user to the channel");
+            }
+        } catch (error) {
+            console.log("Error making api request to get add membership: ", error);
+        }
+    }
+
     return(
         <div id="channelListContainer">
             <div id="channelList">
@@ -173,6 +202,9 @@ export default function ChannelList() {
                                     </div>
                                     <div className="popUpListItemText">
                                         {channel.name}
+                                    </div>
+                                    <div className="popUpListItemButton" onClick={() => addMembership(index)}>
+                                        Add
                                     </div>
                                 </div>
                             )
