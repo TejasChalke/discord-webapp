@@ -1,12 +1,15 @@
 import { createContext } from "react";
 
-const SelectedChannelContext = createContext({
+const SelectedChannelDefault = {
     selectedChannel: {
         id: -1,
+        name: "",
         rooms: [],
-        members: []
+        users: []
     },
     setSelectedChannel: () => {}
-});
+};
 
-export default SelectedChannelContext;
+const SelectedChannelContext = createContext(SelectedChannelDefault);
+
+export { SelectedChannelContext, SelectedChannelDefault }

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import UserContext from './contexts/UserContext';
 import ChannelsContext from './contexts/ChannelsContext';
-import SelectedChannelContext from './contexts/SelectedChannelContext';
+import { SelectedChannelContext, SelectedChannelDefault } from './contexts/SelectedChannelContext.js';
 
 import ChannelList from './components/server list/ChannelList';
 import LeftPanel from './components/left panel/LeftPanel';
@@ -13,14 +13,7 @@ import Login from './components/login/Login';
 function App() {
   const [user, setUser] = useState({});
   const [channels, setChannels] = useState({});
-  const [selectedChannel, setSelectedChannel] = useState({
-      selectedChannel: {
-          id: -1,
-          rooms: [],
-          members: []
-      },
-      setSelectedChannel: () => {}
-  });
+  const [selectedChannel, setSelectedChannel] = useState(SelectedChannelDefault.selectedChannel);
 
   return (
     <div className="App">

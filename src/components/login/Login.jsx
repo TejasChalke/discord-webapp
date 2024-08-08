@@ -1,8 +1,10 @@
 import './Login.scss';
 import backgroundImage from '../../images/login_background.png'
 import { useContext, useState } from 'react';
+
 import UserContext from '../../contexts/UserContext';
 import ChannelsContext from '../../contexts/ChannelsContext';
+import { SelectedChannelContext } from '../../contexts/SelectedChannelContext';
 
 export default function Login() {
     const [display, setDisplay] = useState("login");
@@ -23,6 +25,7 @@ function LoginForm(props) {
     const [password, setPassword] = useState("");
     const { setUser } = useContext(UserContext);
     const { setChannels } = useContext(ChannelsContext);
+    const { setSelectedChannel } = useContext(SelectedChannelContext);
 
     async function login() {
         if(email.trim().length === 0) {
@@ -49,15 +52,25 @@ function LoginForm(props) {
                 user = await response.json();
             } else {
                 console.log("Error logging in");
+                return;
             }
 
-            if(user !== null) {
-                const channels = await getUserChannels(user.id);
-                // select the first channel and get its data
+            const channels = await getUserChannels(user.id);
+            setChannels(channels);
+            setUser(user);
+            if(channels.length === 0) return;
+            
+            // select the first channel and get its data
+            const firstChannelId = channels[0].id;
 
-                setChannels(channels);
-                setUser(user);
+            const channelDataResponse = await fetch(`http://localhost:8080/api/channel/${firstChannelId}`);
+            if(channelDataResponse.status === 500) {
+                console.log("Error getting channel data from server");
+                return;
             }
+
+            const channelData = await channelDataResponse.json();
+            setSelectedChannel({...channelData, id: firstChannelId, name: channels[0].name});
         } catch (error) {
             console.log("Error making api request to login: ", error);
         }

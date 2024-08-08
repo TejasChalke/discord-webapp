@@ -2,10 +2,12 @@ import { useContext, useState } from 'react'
 import './ChannelList.scss'
 import ChannelsContext from '../../contexts/ChannelsContext'
 import UserContext from '../../contexts/UserContext'
+import { SelectedChannelContext } from '../../contexts/SelectedChannelContext';
 
 export default function ChannelList() {
     const { channels, setChannels } = useContext(ChannelsContext);
     const { user } = useContext(UserContext);
+    const { selectedChannel, setSelectedChannel } = useContext(SelectedChannelContext);
     
     const [showAddForm, setShowAddForm] = useState(false);
     const [showSearchForm, setShowSearchForm] = useState(false);
@@ -152,13 +154,36 @@ export default function ChannelList() {
         }
     }
 
+    async function changeSelectedChannel(index) {
+        if(index === selectedChannel.id) return;
+
+        try {
+            const channelId = channels[index].id;
+
+            const channelDataResponse = await fetch(`http://localhost:8080/api/channel/${channelId}`);
+            if(channelDataResponse.status === 500) {
+                console.log("Error getting channel data from server");
+                return;
+            }
+
+            const channelData = await channelDataResponse.json();
+            setSelectedChannel({...channelData, id: channelId, name: channels[index].name});
+        } catch(error) {
+            console.log("Error getting selected channnel data", error);
+        }
+    }
+
     return(
         <div id="channelListContainer">
             <div id="channelList">
                 {
                     channels.map((channel, index) => {
                         return(
-                            <div className="channelListItem" key={index}>
+                            <div
+                                className="channelListItem"
+                                key={index}
+                                onClick={() => changeSelectedChannel(index)}
+                            >
                                 {channel.name[0]}
                             </div>
                         )

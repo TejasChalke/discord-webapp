@@ -1,18 +1,22 @@
 import { useContext } from 'react'
 import './LeftPanel.scss'
 import UserContext from '../../contexts/UserContext'
+import { SelectedChannelContext } from '../../contexts/SelectedChannelContext';
 
 export default function LeftPanel() {
     const { user } = useContext(UserContext);
-    const textChannels = ["General", "Updates"]
-    const voiceChannels = ["Gaming", "Chill"]
+    const { selectedChannel } = useContext(SelectedChannelContext);
+
+    const textChannels = selectedChannel.rooms.filter((channel) => channel.type === "text");
+    const voiceChannels = selectedChannel.rooms.filter((channel) => channel.type === "voice");
+
     var tag = "" + user.tag;
     while(tag.length < 4) tag = "0" + tag;
 
     return(
         <div id="leftPanelContainer">
             <div id="leftPanelHeader">
-                <span>Server Name</span>
+                <span>{selectedChannel.name}</span>
                 <i className="fa-solid fa-chevron-down"></i>
             </div>
 
@@ -28,7 +32,7 @@ export default function LeftPanel() {
                                 return(
                                     <div className="leftPanelListChannel" key={index}>
                                         <i className="fa-solid fa-hashtag"></i>
-                                        <span>{channel}</span>
+                                        <span>{channel.name}</span>
                                     </div>
                                 )
                             })
@@ -47,7 +51,7 @@ export default function LeftPanel() {
                                 return(
                                     <div className="leftPanelListChannel" key={index}>
                                         <i className="fa-solid fa-hashtag"></i>
-                                        <span>{channel}</span>
+                                        <span>{channel.name}</span>
                                     </div>
                                 )
                             })
